@@ -176,7 +176,7 @@ export const loader = async ({ request }) => {
           showDebug('surveyoptin loaded, rendering widget...');
 
           const config = {
-            "merchant_id": 5338616603,
+            "merchant_id": 5338616603, // TODO: Replace with your real Google Merchant ID from merchants.google.com
             "order_id": orderId,
             "email": email,
             "delivery_country": deliveryCountry,
