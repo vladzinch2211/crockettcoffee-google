@@ -1,0 +1,39 @@
+<!-- Google Customer Reviews Script for Shopify Order Status Page -->
+<!-- Добавь этот код в: Settings → Checkout → Order status page → Additional scripts -->
+
+<script src="https://apis.google.com/js/platform.js?onload=renderOptIn" async defer></script>
+
+<script>
+  window.renderOptIn = function() {
+    window.gapi.load('surveyoptin', function() {
+
+      // Расчет даты доставки (текущая дата + 7 дней)
+      var orderDate = new Date('{{ order.created_at | date: "%Y-%m-%d" }}');
+      var deliveryDate = new Date(orderDate);
+      deliveryDate.setDate(deliveryDate.getDate() + 7);
+      var estimatedDate = deliveryDate.toISOString().split('T')[0];
+
+      // Формируем массив товаров с GTIN (barcode)
+      var products = [
+        {% for line_item in order.line_items %}
+          {% if line_item.variant.barcode != blank %}
+            {"gtin": "{{ line_item.variant.barcode }}"}{% unless forloop.last %},{% endunless %}
+          {% endif %}
+        {% endfor %}
+      ];
+
+      // Инициализация Google Customer Reviews виджета
+      window.gapi.surveyoptin.render({
+        "merchant_id": "5338616603",  // Замени на свой Google Merchant ID
+        "order_id": "{{ order.order_number }}",
+        "email": "{{ order.email }}",
+        "delivery_country": "{{ order.shipping_address.country_code }}",
+        "estimated_delivery_date": estimatedDate,
+        "products": products,
+        "opt_in_style": "CENTER_DIALOG"  // Можно изменить: BOTTOM_RIGHT_DIALOG, BOTTOM_LEFT_DIALOG
+      });
+
+      console.log("Google Customer Reviews виджет загружен");
+    });
+  }
+</script>

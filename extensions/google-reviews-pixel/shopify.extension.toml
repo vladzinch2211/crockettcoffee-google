@@ -1,0 +1,15 @@
+# Learn more about configuring your web pixel extension:
+# https://shopify.dev/docs/apps/marketing/pixels
+
+uid = "c58bac1e-5171-df86-a2ae-7b3a2099c2ebcc4e7f61"
+
+type = "web_pixel_extension"
+name = "google-reviews-pixel"
+runtime_context = "strict"
+
+[runtime]
+renderer_version = "0.1"
+
+[settings]
+type = "object"
+fields = {}
